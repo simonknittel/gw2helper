@@ -1,10 +1,10 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#AutoIt3Wrapper_Icon=logo.ico
+#AutoIt3Wrapper_Icon=images/logo.ico
 #AutoIt3Wrapper_Outfile=gw2helper.exe
 #AutoIt3Wrapper_UseX64=n
 #AutoIt3Wrapper_Res_Description=GW2 Helper
 #AutoIt3Wrapper_Res_LegalCopyright=Simon Knittel (gw2helper@simonknittel.de)
-#AutoIt3Wrapper_Res_Icon_Add=logo.ico
+#AutoIt3Wrapper_Res_Icon_Add=images/logo.ico
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 ; *** Start added by AutoIt3Wrapper ***
 #include <ComboConstants.au3>
@@ -26,28 +26,24 @@ Global $remote_ini = InetGet("http://gw2helper.simonknittel.de/version.ini", @Te
 FileDelete(@ScriptDir & "\updater.exe")
 FileDelete(@ScriptDir & "\update.ini")
 If $remote_ini <> 0 Then
-	$remote_version = IniRead(@TempDir & "\version.ini", "latest", "version", "0")
-	If $local_version < $remote_version Then
-		$do_update = MsgBox(4, "GW2 Helper", "Es ist eine neue Version verfügbar. Wollen Sie diese jetzt herunterladen und installieren?")
-		If $do_update == 6 Then ; update.exe herunterladen
-			$updater_download = IniRead(@TempDir & "\version.ini", "latest", "updater", "")
-			$download = InetGet($updater_download, @ScriptDir & "\updater.exe", 1)
-			$latest_download = IniRead(@TempDir & "\version.ini", "latest", "download", "")
-			If $download <> 0 And $latest_download <> "" Then
-				InetClose($download)
-				IniWrite(@ScriptDir & "\update.ini", "new", "download", $latest_download)
-				IniWrite(@ScriptDir & "\update.ini", "exe", "filename", "gw2helper.exe")
-				IniWrite(@ScriptDir & "\update.ini", "file1", "filename", "gw2helper.au3")
-				IniWrite(@ScriptDir & "\update.ini", "file1", "directory", "au3_files")
-				IniWrite(@ScriptDir & "\update.ini", "file2", "filename", "updater.au3")
-				IniWrite(@ScriptDir & "\update.ini", "file2", "directory", "au3_files")
-				Run('"' & @ScriptDir & '\updater.exe"', "", @SW_MAXIMIZE)
-				Exit
-			Else
-				MsgBox(Default, "GW2 Helper", "Beim Herunterladen der neuen Version ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut, oder laden Sie diese manuell unter " & $latest_download & ".zip herunter. (Fehler: 3)")
-			EndIf
-		EndIf
-	EndIf
+    $remote_version = IniRead(@TempDir & "\version.ini", "latest", "version", "0")
+    If $local_version < $remote_version Then
+        $do_update = MsgBox(4, "GW2 Helper", "Es ist eine neue Version verfügbar. Wollen Sie diese jetzt herunterladen und installieren?")
+        If $do_update == 6 Then ; update.exe herunterladen
+            $updater_download = IniRead(@TempDir & "\version.ini", "latest", "updater", "")
+            $download = InetGet($updater_download, @ScriptDir & "\updater.exe", 1)
+            $latest_download = IniRead(@TempDir & "\version.ini", "latest", "download", "")
+            If $download <> 0 And $latest_download <> "" Then
+                InetClose($download)
+                IniWrite(@ScriptDir & "\update.ini", "new", "download", $latest_download)
+                IniWrite(@ScriptDir & "\update.ini", "exe", "filename", "gw2helper.exe")
+                Run('"' & @ScriptDir & '\updater.exe"', "", @SW_MAXIMIZE)
+                Exit
+            Else
+                MsgBox(Default, "GW2 Helper", "Beim Herunterladen der neuen Version ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut, oder laden Sie diese manuell unter " & $latest_download & ".zip herunter. (Fehler: 3)")
+            EndIf
+        EndIf
+    EndIf
 EndIf
 ; ########## Update check end ##########
 
@@ -55,9 +51,9 @@ Global $target_window_name = IniRead("config.ini", "target", "window_name", "Gui
 Global $gui_left = IniRead("config.ini", "gw2helper", "left", 0)
 Global $gui_top = IniRead("config.ini", "gw2helper", "top", 0)
 
-If WinExists($target_window_name) == 0 Then
-	MsgBox(48, "GW2 Helper", "Guild Wars 2 läuft nicht.")
-EndIf
+;If WinExists($target_window_name) == 0 Then
+    ;MsgBox(48, "GW2 Helper", "Guild Wars 2 konnte nicht erkannt werden. (Fehler: 4")
+;EndIf
 
 TraySetIcon(@ScriptFullPath, 201)
 
@@ -120,10 +116,10 @@ HotKeySet($selected_hotkeys[1], "AFKToggle")
 HotKeySet($selected_hotkeys[2], "CLICKToggle")
 HotKeySet($selected_hotkeys[3], "LOOTBOTToggle")
 
-; Loot bot
+; Loot Machine
 Global $loot_bot_running = 0
 Global $loot_key = IniRead("config.ini", "loot_bot", "aoe_loot_key", $hotkey_list[18])
-; Loot bot end
+; Loot Machine end
 
 ; Click script
 Global $click_running = 0
@@ -146,7 +142,7 @@ Global $afk_running = 0
 ; AFK script end
 
 AutoItSetOption("GUIResizeMode", 802)
-;Global $sMain = "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper."
+;Global $sMain = "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper."
 
 Global $fMain = GUICreate("GW2 Helper", 420, 90, $gui_left, $gui_top, $WS_POPUPWINDOW, $WS_EX_TOPMOST, WinGetHandle(AutoItWinGetTitle()))
 GUISetBkColor($COLOR_WHITE)
@@ -173,39 +169,39 @@ $api_url = "https://api.guildwars2.com/v1/build.json"
 $api = InetRead($api_url)
 $build = BinaryToString($api, 4)
 While 1
-	Sleep(100)
-	$gui_transparency = GUICtrlRead($sTransparency)
-	WinSetTrans($fMain, "", $gui_transparency)
+    Sleep(100)
+    $gui_transparency = GUICtrlRead($sTransparency)
+    WinSetTrans($fMain, "", $gui_transparency)
 WEnd
 
 Func ChangeGUI()
-	If ($click_running == 0 and $afk_running == 0 and $loot_bot_running == 0) Then
-	  GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
-	  WinMove($fMain, "", Default, Default, 420, 90)
-	  GUICtrlSetImage($iState, "shell32.dll", 16783)
-	  GUICtrlSetState($sTransparency, $GUI_SHOW)
-	ElseIf ($afk_running == 1) Then
-	  GUICtrlSetData($lText, "The AFK Bot is running.")
-	  WinMove($fMain, "", Default, Default, 200, 65)
-	  GUICtrlSetImage($iState, "shell32.dll", 161)
-	  GUICtrlSetState($sTransparency, $GUI_HIDE)
-	ElseIf ($click_running == 1) Then
-	  GUICtrlSetData($lText, "The Speed Clicker is running.")
-	  WinMove($fMain, "", Default, Default, 200, 65)
-	  GUICtrlSetImage($iState, "shell32.dll", 161)
-	  GUICtrlSetState($sTransparency, $GUI_HIDE)
-	ElseIf ($loot_bot_running == 1) Then
-	  GUICtrlSetData($lText, "The Loot Bot is running.")
-	  WinMove($fMain, "", Default, Default, 200, 65)
-	  GUICtrlSetImage($iState, "shell32.dll", 161)
-	  GUICtrlSetState($sTransparency, $GUI_HIDE)
-	EndIf
+    If ($click_running == 0 and $afk_running == 0 and $loot_bot_running == 0) Then
+      GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+      WinMove($fMain, "", Default, Default, 420, 90)
+      GUICtrlSetImage($iState, "shell32.dll", 16783)
+      GUICtrlSetState($sTransparency, $GUI_SHOW)
+    ElseIf ($afk_running == 1) Then
+      GUICtrlSetData($lText, "The AFK Bot is running.")
+      WinMove($fMain, "", Default, Default, 200, 65)
+      GUICtrlSetImage($iState, "shell32.dll", 161)
+      GUICtrlSetState($sTransparency, $GUI_HIDE)
+    ElseIf ($click_running == 1) Then
+      GUICtrlSetData($lText, "The Speed Clicker is running.")
+      WinMove($fMain, "", Default, Default, 200, 65)
+      GUICtrlSetImage($iState, "shell32.dll", 161)
+      GUICtrlSetState($sTransparency, $GUI_HIDE)
+    ElseIf ($loot_bot_running == 1) Then
+      GUICtrlSetData($lText, "The Loot Machine is running.")
+      WinMove($fMain, "", Default, Default, 200, 65)
+      GUICtrlSetImage($iState, "shell32.dll", 161)
+      GUICtrlSetState($sTransparency, $GUI_HIDE)
+    EndIf
 EndFunc
 
 Func SetHotkeys()
    $dropdown_list = ""
    For $i = 0 To UBound($hotkey_list,1) -1
-	   $dropdown_list &= "|" & $hotkey_list[$i]
+       $dropdown_list &= "|" & $hotkey_list[$i]
    Next
 
    $gui = GUICreate("Set Hotkeys - GW2 Helper", 185, 325)
@@ -226,7 +222,7 @@ Func SetHotkeys()
    GUICtrlSetData($gui_combo2, $dropdown_list)
    _GUICtrlComboBox_SelectString($gui_combo2, $selected_hotkeys[2])
 
-   GUICtrlCreateLabel("Loot Bot", 50, 175)
+   GUICtrlCreateLabel("Loot Machine", 50, 175)
    $gui_combo3 = GUICtrlCreateCombo("", 50, 190, 85, 25, $CBS_DROPDOWNLIST)
    GUICtrlSetData($gui_combo3, $dropdown_list)
    _GUICtrlComboBox_SelectString($gui_combo3, $selected_hotkeys[3])
@@ -239,34 +235,34 @@ Func SetHotkeys()
    GUISetState(@SW_SHOW, $gui)
 
    While 1
-	  Switch GUIGetMsg()
-		 Case $gui_combo0
-			HotKeySet($selected_hotkeys[0])
-			$selected_hotkeys[0] = GUICtrlRead($gui_combo0)
-			HotKeySet($selected_hotkeys[0], "Close")
-			GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
-		 Case $gui_combo1
-			HotKeySet($selected_hotkeys[1])
-			$selected_hotkeys[1] = GUICtrlRead($gui_combo1)
-			HotKeySet($selected_hotkeys[1], "AFKToggle")
-			GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
-		 Case $gui_combo2
-			HotKeySet($selected_hotkeys[2])
-			$selected_hotkeys[2] = GUICtrlRead($gui_combo2)
-			HotKeySet($selected_hotkeys[2], "CLICKToggle")
-			GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
-		 Case $gui_combo3
-			HotKeySet($selected_hotkeys[3])
-			$selected_hotkeys[3] = GUICtrlRead($gui_combo3)
-			HotKeySet($selected_hotkeys[3], "LOOTBOTToggle")
-			GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
-		 Case $gui_combo4
-			$loot_key = GUICtrlRead($gui_combo4)
-			GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+      Switch GUIGetMsg()
+         Case $gui_combo0
+            HotKeySet($selected_hotkeys[0])
+            $selected_hotkeys[0] = GUICtrlRead($gui_combo0)
+            HotKeySet($selected_hotkeys[0], "Close")
+            GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+         Case $gui_combo1
+            HotKeySet($selected_hotkeys[1])
+            $selected_hotkeys[1] = GUICtrlRead($gui_combo1)
+            HotKeySet($selected_hotkeys[1], "AFKToggle")
+            GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+         Case $gui_combo2
+            HotKeySet($selected_hotkeys[2])
+            $selected_hotkeys[2] = GUICtrlRead($gui_combo2)
+            HotKeySet($selected_hotkeys[2], "CLICKToggle")
+            GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+         Case $gui_combo3
+            HotKeySet($selected_hotkeys[3])
+            $selected_hotkeys[3] = GUICtrlRead($gui_combo3)
+            HotKeySet($selected_hotkeys[3], "LOOTBOTToggle")
+            GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
+         Case $gui_combo4
+            $loot_key = GUICtrlRead($gui_combo4)
+            GUICtrlSetData($lText, "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.")
 
-		 Case $GUI_EVENT_CLOSE, $gui_close_button
-			ExitLoop
-	  EndSwitch
+         Case $GUI_EVENT_CLOSE, $gui_close_button
+            ExitLoop
+      EndSwitch
    WEnd
 
    GUIDelete($gui)
@@ -279,11 +275,11 @@ Func StopAll()
 EndFunc
 
 Func Help()
-   TrayTip("Help", "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Bot (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.", 30, 1)
+   TrayTip("Help", "Press " & $selected_hotkeys[1] & " to toggle the AFK Bot." & @CRLF & "Press " & $selected_hotkeys[2] & " to toggle the Speed Clicker." & @CRLF & "Press " & $selected_hotkeys[3] & " to toggle the Loot Machine (aoe loot: " & $loot_key & ") (experimental)." & @CRLF & "Press " & $selected_hotkeys[0] & " to close the GW2 Helper.", 30, 1)
 EndFunc
 
 Func About()
-	TrayTip("About", "Copyright by Simon Knittel (gw2helper@simonknittel.de)" & @CRLF & "Version " & $local_version, 30, 1)
+    TrayTip("About", "Copyright by Simon Knittel (gw2helper@simonknittel.de)" & @CRLF & "Version " & $local_version, 30, 1)
 EndFunc
 
 Func Close()
@@ -300,19 +296,19 @@ Func Close()
    Exit
 EndFunc
 
-; Loot bot
+; Loot Machine
 Func LOOTBOTToggle()
    If ($loot_bot_running == 0) Then
-	  LOOTBOTStart()
+      LOOTBOTStart()
    ElseIf ($loot_bot_running == 1) Then
-	  LOOTBOTStop()
+      LOOTBOTStop()
    EndIf
 EndFunc
 
 Func LOOTBOTStart()
    StopAll()
    $loot_bot_running = 1
-   GUICtrlSetData($lText, "The Loot Bot is running.")
+   GUICtrlSetData($lText, "The Loot Machine is running.")
    WinMove($fMain, "", Default, Default, 200, 65)
    GUICtrlSetImage($iState, "shell32.dll", 161)
    GUICtrlSetState($sTransparency, $GUI_HIDE)
@@ -327,21 +323,21 @@ EndFunc
 
 Func LOOTBOTLoop()
    While $loot_bot_running == 1
-	  GUICtrlSetData($lText, "The Loot Bot is running." & @CRLF & "Looting ...")
-	  ControlSend("Guild Wars 2", "", "", $loot_key)
-	  GUICtrlSetData($lText, "The Loot Bot is running.")
+      GUICtrlSetData($lText, "The Loot Machine is running." & @CRLF & "Looting ...")
+      ControlSend("Guild Wars 2", "", "", $loot_key)
+      GUICtrlSetData($lText, "The Loot Machine is running.")
 
-	  Sleep(2000)
+      Sleep(2000)
    WEnd
 EndFunc
-; Loot bot end
+; Loot Machine end
 
 ; Click script
 Func CLICKToggle()
    If ($click_running == 0) Then
-	  CLICKStart()
+      CLICKStart()
    ElseIf ($click_running == 1) Then
-	  CLICKStop()
+      CLICKStop()
    EndIf
 EndFunc
 
@@ -363,8 +359,8 @@ EndFunc
 
 Func CLICKLoop()
    While $click_running == 1
-	   MouseClick("")
-	  ;ControlClick($target_window_name, "", "")
+       MouseClick("")
+      ;ControlClick($target_window_name, "", "")
    WEnd
 EndFunc
 ; Click script end
@@ -372,21 +368,21 @@ EndFunc
 ; AFK script
 Func AFKToggle()
    If ($afk_running == 0) Then
-	  AFKStart()
+      AFKStart()
    ElseIf ($afk_running == 1) Then
-	  AFKStop()
+      AFKStop()
    EndIf
 EndFunc
 
 Func AFKStart ()
-	StopAll()
-	$afk_running = 1
-	GUICtrlSetData($lText, "The AFK Bot is running.")
-	WinMove($fMain, "", Default, Default, 200, 65)
-	GUICtrlSetImage($iState, "shell32.dll", 161)
+    StopAll()
+    $afk_running = 1
+    GUICtrlSetData($lText, "The AFK Bot is running.")
+    WinMove($fMain, "", Default, Default, 200, 65)
+    GUICtrlSetImage($iState, "shell32.dll", 161)
     GUICtrlSetState($sTransparency, $GUI_HIDE)
 
-	AFKLoop()
+    AFKLoop()
 EndFunc
 
 Func AFKStop ()
@@ -401,26 +397,26 @@ EndFunc
 
 Func AFKLoop ()
    While $afk_running == 1
-	  $rand_key = Random(0,3,1)
-	  ControlSend($target_window_name, "", "", $Keys[$rand_key])
-	  GUICtrlSetData($lText, "The AFK Bot is running." & @CRLF & "Moving ...")
+      $rand_key = Random(0,3,1)
+      ControlSend($target_window_name, "", "", $Keys[$rand_key])
+      GUICtrlSetData($lText, "The AFK Bot is running." & @CRLF & "Moving ...")
 
-	  Sleep(1000)
-	  If ($afk_running == 1) Then
-		 ControlSend($target_window_name, "", "", $Keys2[$rand_key])
-		 GUICtrlSetData($lText, "The AFK Bot is running.")
+      Sleep(1000)
+      If ($afk_running == 1) Then
+         ControlSend($target_window_name, "", "", $Keys2[$rand_key])
+         GUICtrlSetData($lText, "The AFK Bot is running.")
 
-		 $rand = Random(240000, 300000, 1)
-		 ;$rand = Random(1000, 5000, 1) ;For testing
-		 $seconds = Ceiling($rand / 1000)
-		 For $i = 1 To $seconds Step 1
-			If ($afk_running == 1) Then
-			   GUICtrlSetData($lText, "The AFK Bot is running." & @CRLF & "Next move in " & $seconds & " seconds ...")
-			   Sleep(1000)
-			   $seconds -= 1
-			EndIf
-		 Next
-	  EndIf
+         $rand = Random(240000, 300000, 1)
+         ;$rand = Random(1000, 5000, 1) ;For testing
+         $seconds = Ceiling($rand / 1000)
+         For $i = 1 To $seconds Step 1
+            If ($afk_running == 1) Then
+               GUICtrlSetData($lText, "The AFK Bot is running." & @CRLF & "Next move in " & $seconds & " seconds ...")
+               Sleep(1000)
+               $seconds -= 1
+            EndIf
+         Next
+      EndIf
    WEnd
 EndFunc
 ; AFK script end
